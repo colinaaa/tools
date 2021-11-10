@@ -55,6 +55,7 @@ pub struct Ident {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Ident {
+	#[allow(deprecated)]
 	pub fn ident_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![ident])
 	}
@@ -64,30 +65,29 @@ pub struct Script {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Script {
-	pub fn shebang_token(&self) -> Option<SyntaxToken> {
-		support::as_optional_token(&self.syntax, T![shebang])
-	}
-	pub fn items(&self) -> AstNodeList<Stmt> { support::node_list(&self.syntax, 0usize) }
+	pub fn shebang_token(&self) -> Option<SyntaxToken> { support::nth_token(&self.syntax, 0u32) }
+	pub fn items(&self) -> AstNodeList<Stmt> { support::nth_node_list(&self.syntax, 1u32) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Module {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Module {
-	pub fn shebang_token(&self) -> Option<SyntaxToken> {
-		support::as_optional_token(&self.syntax, T![shebang])
-	}
-	pub fn items(&self) -> AstNodeList<ModuleItem> { support::node_list(&self.syntax, 0usize) }
+	pub fn shebang_token(&self) -> Option<SyntaxToken> { support::nth_token(&self.syntax, 0u32) }
+	pub fn items(&self) -> AstNodeList<ModuleItem> { support::nth_node_list(&self.syntax, 1u32) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct BlockStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl BlockStmt {
+	#[allow(deprecated)]
 	pub fn l_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['{'])
 	}
-	pub fn stmts(&self) -> AstNodeList<Stmt> { support::node_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn stmts(&self) -> AstNodeList<Stmt> { support::node_list(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['}'])
 	}
@@ -97,6 +97,7 @@ pub struct EmptyStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl EmptyStmt {
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [;])
 	}
@@ -106,6 +107,7 @@ pub struct ExprStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ExprStmt {
+	#[allow(deprecated)]
 	pub fn expr(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -113,10 +115,13 @@ pub struct IfStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl IfStmt {
+	#[allow(deprecated)]
 	pub fn if_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![if])
 	}
+	#[allow(deprecated)]
 	pub fn condition(&self) -> SyntaxResult<Condition> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn else_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![else])
 	}
@@ -126,14 +131,19 @@ pub struct DoWhileStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl DoWhileStmt {
+	#[allow(deprecated)]
 	pub fn do_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![do])
 	}
+	#[allow(deprecated)]
 	pub fn cons(&self) -> SyntaxResult<Stmt> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn while_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![while])
 	}
+	#[allow(deprecated)]
 	pub fn condition(&self) -> SyntaxResult<Condition> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [;])
 	}
@@ -143,10 +153,13 @@ pub struct WhileStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl WhileStmt {
+	#[allow(deprecated)]
 	pub fn while_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![while])
 	}
+	#[allow(deprecated)]
 	pub fn condition(&self) -> SyntaxResult<Condition> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn cons(&self) -> SyntaxResult<Stmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -154,18 +167,25 @@ pub struct ForStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ForStmt {
+	#[allow(deprecated)]
 	pub fn for_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![for])
 	}
+	#[allow(deprecated)]
 	pub fn l_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['('])
 	}
+	#[allow(deprecated)]
 	pub fn init(&self) -> Option<ForStmtInit> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn test(&self) -> Option<ForStmtTest> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn update(&self) -> Option<ForStmtUpdate> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![')'])
 	}
+	#[allow(deprecated)]
 	pub fn cons(&self) -> SyntaxResult<Stmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -173,20 +193,27 @@ pub struct ForInStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ForInStmt {
+	#[allow(deprecated)]
 	pub fn for_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![for])
 	}
+	#[allow(deprecated)]
 	pub fn l_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['('])
 	}
+	#[allow(deprecated)]
 	pub fn left(&self) -> SyntaxResult<ForStmtInit> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn in_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![in])
 	}
+	#[allow(deprecated)]
 	pub fn right(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![')'])
 	}
+	#[allow(deprecated)]
 	pub fn cons(&self) -> SyntaxResult<Stmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -194,20 +221,27 @@ pub struct ForOfStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ForOfStmt {
+	#[allow(deprecated)]
 	pub fn for_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![for])
 	}
+	#[allow(deprecated)]
 	pub fn l_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['('])
 	}
+	#[allow(deprecated)]
 	pub fn left(&self) -> SyntaxResult<ForStmtInit> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn of_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![of])
 	}
+	#[allow(deprecated)]
 	pub fn right(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![')'])
 	}
+	#[allow(deprecated)]
 	pub fn cons(&self) -> SyntaxResult<Stmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -215,10 +249,13 @@ pub struct ContinueStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ContinueStmt {
+	#[allow(deprecated)]
 	pub fn continue_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![continue])
 	}
+	#[allow(deprecated)]
 	pub fn name_ref(&self) -> SyntaxResult<NameRef> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [;])
 	}
@@ -228,12 +265,15 @@ pub struct BreakStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl BreakStmt {
+	#[allow(deprecated)]
 	pub fn break_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![break])
 	}
+	#[allow(deprecated)]
 	pub fn ident_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![ident])
 	}
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [;])
 	}
@@ -243,10 +283,13 @@ pub struct ReturnStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ReturnStmt {
+	#[allow(deprecated)]
 	pub fn return_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![return])
 	}
+	#[allow(deprecated)]
 	pub fn value(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [;])
 	}
@@ -256,10 +299,13 @@ pub struct WithStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl WithStmt {
+	#[allow(deprecated)]
 	pub fn with_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![with])
 	}
+	#[allow(deprecated)]
 	pub fn condition(&self) -> SyntaxResult<Condition> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn cons(&self) -> SyntaxResult<Stmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -267,10 +313,13 @@ pub struct LabelledStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl LabelledStmt {
+	#[allow(deprecated)]
 	pub fn label(&self) -> SyntaxResult<Name> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn stmt(&self) -> SyntaxResult<Stmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -278,14 +327,19 @@ pub struct SwitchStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl SwitchStmt {
+	#[allow(deprecated)]
 	pub fn switch_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![switch])
 	}
+	#[allow(deprecated)]
 	pub fn test(&self) -> SyntaxResult<Condition> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn l_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['{'])
 	}
-	pub fn cases(&self) -> AstNodeList<SwitchCase> { support::node_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn cases(&self) -> AstNodeList<SwitchCase> { support::node_list(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['}'])
 	}
@@ -295,10 +349,13 @@ pub struct ThrowStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ThrowStmt {
+	#[allow(deprecated)]
 	pub fn throw_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![throw])
 	}
+	#[allow(deprecated)]
 	pub fn exception(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [;])
 	}
@@ -308,11 +365,15 @@ pub struct TryStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TryStmt {
+	#[allow(deprecated)]
 	pub fn try_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![try])
 	}
+	#[allow(deprecated)]
 	pub fn test(&self) -> SyntaxResult<BlockStmt> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn handler(&self) -> Option<CatchClause> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn finalizer(&self) -> Option<Finalizer> { support::as_optional_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -320,9 +381,11 @@ pub struct DebuggerStmt {
 	pub(crate) syntax: SyntaxNode,
 }
 impl DebuggerStmt {
+	#[allow(deprecated)]
 	pub fn debugger_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![debugger])
 	}
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [;])
 	}
@@ -332,10 +395,13 @@ pub struct Condition {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Condition {
+	#[allow(deprecated)]
 	pub fn l_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['('])
 	}
+	#[allow(deprecated)]
 	pub fn condition(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![')'])
 	}
@@ -345,7 +411,9 @@ pub struct ForStmtInit {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ForStmtInit {
+	#[allow(deprecated)]
 	pub fn inner(&self) -> SyntaxResult<ForHead> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [;])
 	}
@@ -355,7 +423,9 @@ pub struct ForStmtTest {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ForStmtTest {
+	#[allow(deprecated)]
 	pub fn expr(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [;])
 	}
@@ -365,6 +435,7 @@ pub struct ForStmtUpdate {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ForStmtUpdate {
+	#[allow(deprecated)]
 	pub fn expr(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -372,15 +443,17 @@ pub struct VarDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl VarDecl {
+	#[allow(deprecated)]
 	pub fn var_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![var])
 	}
+	#[allow(deprecated)]
 	pub fn const_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![const])
 	}
-	pub fn declared(&self) -> AstSeparatedList<Declarator> {
-		support::separated_list(&self.syntax, 0usize)
-	}
+	#[allow(deprecated)]
+	pub fn declared(&self) -> AstSeparatedList<Declarator> { support::separated_list(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [;])
 	}
@@ -390,6 +463,7 @@ pub struct NameRef {
 	pub(crate) syntax: SyntaxNode,
 }
 impl NameRef {
+	#[allow(deprecated)]
 	pub fn ident_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![ident])
 	}
@@ -399,6 +473,7 @@ pub struct Name {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Name {
+	#[allow(deprecated)]
 	pub fn ident_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![ident])
 	}
@@ -408,43 +483,55 @@ pub struct CaseClause {
 	pub(crate) syntax: SyntaxNode,
 }
 impl CaseClause {
+	#[allow(deprecated)]
 	pub fn case_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![case])
 	}
+	#[allow(deprecated)]
 	pub fn test(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
-	pub fn cons(&self) -> AstNodeList<Stmt> { support::node_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn cons(&self) -> AstNodeList<Stmt> { support::node_list(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct DefaultClause {
 	pub(crate) syntax: SyntaxNode,
 }
 impl DefaultClause {
+	#[allow(deprecated)]
 	pub fn default_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![default])
 	}
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
-	pub fn cons(&self) -> AstNodeList<Stmt> { support::node_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn cons(&self) -> AstNodeList<Stmt> { support::node_list(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct CatchClause {
 	pub(crate) syntax: SyntaxNode,
 }
 impl CatchClause {
+	#[allow(deprecated)]
 	pub fn catch_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![catch])
 	}
+	#[allow(deprecated)]
 	pub fn l_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['('])
 	}
+	#[allow(deprecated)]
 	pub fn error(&self) -> SyntaxResult<Pattern> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![')'])
 	}
+	#[allow(deprecated)]
 	pub fn cons(&self) -> SyntaxResult<BlockStmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -452,9 +539,11 @@ pub struct Finalizer {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Finalizer {
+	#[allow(deprecated)]
 	pub fn finally_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![finally])
 	}
+	#[allow(deprecated)]
 	pub fn cons(&self) -> SyntaxResult<BlockStmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -462,17 +551,23 @@ pub struct ArrowExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ArrowExpr {
+	#[allow(deprecated)]
 	pub fn async_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![async])
 	}
+	#[allow(deprecated)]
 	pub fn type_params(&self) -> Option<TsTypeParams> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn params(&self) -> Option<ArrowExprParams> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn fat_arrow_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [=>])
 	}
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn return_type(&self) -> Option<TsType> { support::as_optional_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -480,21 +575,27 @@ pub struct Literal {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Literal {
+	#[allow(deprecated)]
 	pub fn true_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![true])
 	}
+	#[allow(deprecated)]
 	pub fn false_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![false])
 	}
+	#[allow(deprecated)]
 	pub fn number_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![number])
 	}
+	#[allow(deprecated)]
 	pub fn regex_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![regex])
 	}
+	#[allow(deprecated)]
 	pub fn float_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![float])
 	}
+	#[allow(deprecated)]
 	pub fn big_int_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![big_int])
 	}
@@ -504,6 +605,7 @@ pub struct Template {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Template {
+	#[allow(deprecated)]
 	pub fn backtick_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['`'])
 	}
@@ -513,6 +615,7 @@ pub struct ThisExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ThisExpr {
+	#[allow(deprecated)]
 	pub fn this_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![this])
 	}
@@ -522,10 +625,13 @@ pub struct ArrayExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ArrayExpr {
+	#[allow(deprecated)]
 	pub fn l_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['['])
 	}
-	pub fn elements(&self) -> AstNodeList<ExprOrSpread> { support::node_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn elements(&self) -> AstNodeList<ExprOrSpread> { support::node_list(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![']'])
 	}
@@ -535,12 +641,13 @@ pub struct ObjectExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ObjectExpr {
+	#[allow(deprecated)]
 	pub fn l_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['{'])
 	}
-	pub fn props(&self) -> AstSeparatedList<ObjectProp> {
-		support::separated_list(&self.syntax, 0usize)
-	}
+	#[allow(deprecated)]
+	pub fn props(&self) -> AstSeparatedList<ObjectProp> { support::separated_list(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['}'])
 	}
@@ -550,10 +657,13 @@ pub struct GroupingExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl GroupingExpr {
+	#[allow(deprecated)]
 	pub fn l_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['('])
 	}
+	#[allow(deprecated)]
 	pub fn inner(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![')'])
 	}
@@ -563,12 +673,15 @@ pub struct BracketExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl BracketExpr {
+	#[allow(deprecated)]
 	pub fn super_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![super])
 	}
+	#[allow(deprecated)]
 	pub fn l_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['['])
 	}
+	#[allow(deprecated)]
 	pub fn r_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![']'])
 	}
@@ -578,13 +691,17 @@ pub struct DotExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl DotExpr {
+	#[allow(deprecated)]
 	pub fn super_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![super])
 	}
+	#[allow(deprecated)]
 	pub fn object(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn dot_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [.])
 	}
+	#[allow(deprecated)]
 	pub fn prop(&self) -> SyntaxResult<Name> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -592,11 +709,15 @@ pub struct NewExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl NewExpr {
+	#[allow(deprecated)]
 	pub fn new_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![new])
 	}
+	#[allow(deprecated)]
 	pub fn type_args(&self) -> Option<TsTypeArgs> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn object(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn arguments(&self) -> SyntaxResult<ArgList> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -604,8 +725,11 @@ pub struct CallExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl CallExpr {
+	#[allow(deprecated)]
 	pub fn type_args(&self) -> Option<TsTypeArgs> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn callee(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn arguments(&self) -> SyntaxResult<ArgList> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -613,6 +737,7 @@ pub struct UnaryExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl UnaryExpr {
+	#[allow(deprecated)]
 	pub fn operator(&self) -> Option<SyntaxToken> {
 		support::find_token(
 			&self.syntax,
@@ -628,6 +753,7 @@ impl UnaryExpr {
 			],
 		)
 	}
+	#[allow(deprecated)]
 	pub fn argument(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -635,9 +761,11 @@ pub struct PreUpdateExpression {
 	pub(crate) syntax: SyntaxNode,
 }
 impl PreUpdateExpression {
+	#[allow(deprecated)]
 	pub fn operator(&self) -> Option<SyntaxToken> {
 		support::find_token(&self.syntax, &[T ! [++], T ! [--]])
 	}
+	#[allow(deprecated)]
 	pub fn operand(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -645,7 +773,9 @@ pub struct PostUpdateExpression {
 	pub(crate) syntax: SyntaxNode,
 }
 impl PostUpdateExpression {
+	#[allow(deprecated)]
 	pub fn operand(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn operator(&self) -> Option<SyntaxToken> {
 		support::find_token(&self.syntax, &[T ! [++], T ! [--]])
 	}
@@ -655,6 +785,7 @@ pub struct BinExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl BinExpr {
+	#[allow(deprecated)]
 	pub fn operator(&self) -> Option<SyntaxToken> {
 		support::find_token(
 			&self.syntax,
@@ -693,9 +824,11 @@ pub struct CondExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl CondExpr {
+	#[allow(deprecated)]
 	pub fn question_mark_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [?])
 	}
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
@@ -705,6 +838,7 @@ pub struct AssignExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl AssignExpr {
+	#[allow(deprecated)]
 	pub fn operator(&self) -> Option<SyntaxToken> {
 		support::find_token(
 			&self.syntax,
@@ -733,7 +867,9 @@ pub struct SequenceExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl SequenceExpr {
-	pub fn exprs(&self) -> AstSeparatedList<Expr> { support::separated_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn exprs(&self) -> AstSeparatedList<Expr> { support::separated_list(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn bin_expr(&self) -> SyntaxResult<BinExpr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -741,22 +877,31 @@ pub struct FnExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl FnExpr {
+	#[allow(deprecated)]
 	pub fn async_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![async])
 	}
+	#[allow(deprecated)]
 	pub fn function_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![function])
 	}
+	#[allow(deprecated)]
 	pub fn star_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [*])
 	}
+	#[allow(deprecated)]
 	pub fn name(&self) -> SyntaxResult<Name> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn type_params(&self) -> Option<TsTypeParams> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn parameters(&self) -> SyntaxResult<ArgList> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn return_type(&self) -> Option<TsType> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn body(&self) -> SyntaxResult<BlockStmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -764,18 +909,25 @@ pub struct ClassExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ClassExpr {
+	#[allow(deprecated)]
 	pub fn class_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![class])
 	}
+	#[allow(deprecated)]
 	pub fn name(&self) -> SyntaxResult<Name> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn type_params(&self) -> Option<TsTypeParams> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn parent(&self) -> Option<Expr> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn implements_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![implements])
 	}
+	#[allow(deprecated)]
 	pub fn implements(&self) -> Option<TsExprWithTypeArgs> {
 		support::as_optional_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn body(&self) -> SyntaxResult<ClassBody> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -783,12 +935,15 @@ pub struct NewTarget {
 	pub(crate) syntax: SyntaxNode,
 }
 impl NewTarget {
+	#[allow(deprecated)]
 	pub fn new_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![new])
 	}
+	#[allow(deprecated)]
 	pub fn dot_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [.])
 	}
+	#[allow(deprecated)]
 	pub fn target_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![target])
 	}
@@ -798,9 +953,11 @@ pub struct ImportMeta {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ImportMeta {
+	#[allow(deprecated)]
 	pub fn import_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![import])
 	}
+	#[allow(deprecated)]
 	pub fn dot_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [.])
 	}
@@ -810,9 +967,11 @@ pub struct SuperCall {
 	pub(crate) syntax: SyntaxNode,
 }
 impl SuperCall {
+	#[allow(deprecated)]
 	pub fn super_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![super])
 	}
+	#[allow(deprecated)]
 	pub fn arguments(&self) -> SyntaxResult<ArgList> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -820,13 +979,17 @@ pub struct ImportCall {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ImportCall {
+	#[allow(deprecated)]
 	pub fn import_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![import])
 	}
+	#[allow(deprecated)]
 	pub fn l_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['('])
 	}
+	#[allow(deprecated)]
 	pub fn argument(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![')'])
 	}
@@ -836,12 +999,15 @@ pub struct YieldExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl YieldExpr {
+	#[allow(deprecated)]
 	pub fn yield_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![yield])
 	}
+	#[allow(deprecated)]
 	pub fn star_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [*])
 	}
+	#[allow(deprecated)]
 	pub fn value(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -849,9 +1015,11 @@ pub struct AwaitExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl AwaitExpr {
+	#[allow(deprecated)]
 	pub fn await_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![await])
 	}
+	#[allow(deprecated)]
 	pub fn expr(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -859,10 +1027,13 @@ pub struct PrivatePropAccess {
 	pub(crate) syntax: SyntaxNode,
 }
 impl PrivatePropAccess {
+	#[allow(deprecated)]
 	pub fn lhs(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn dot_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [.])
 	}
+	#[allow(deprecated)]
 	pub fn rhs(&self) -> SyntaxResult<PrivateName> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -870,7 +1041,9 @@ pub struct TsNonNull {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsNonNull {
+	#[allow(deprecated)]
 	pub fn expr(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn excl_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![!])
 	}
@@ -880,12 +1053,17 @@ pub struct TsAssertion {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsAssertion {
+	#[allow(deprecated)]
 	pub fn expr(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn l_angle_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [<])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_angle_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [>])
 	}
@@ -895,14 +1073,19 @@ pub struct TsConstAssertion {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsConstAssertion {
+	#[allow(deprecated)]
 	pub fn expr(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn l_angle_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [<])
 	}
+	#[allow(deprecated)]
 	pub fn const_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![const])
 	}
+	#[allow(deprecated)]
 	pub fn r_angle_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [>])
 	}
@@ -912,10 +1095,13 @@ pub struct TsTypeArgs {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsTypeArgs {
+	#[allow(deprecated)]
 	pub fn l_angle_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [<])
 	}
+	#[allow(deprecated)]
 	pub fn args(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_angle_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [>])
 	}
@@ -925,10 +1111,13 @@ pub struct ArgList {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ArgList {
+	#[allow(deprecated)]
 	pub fn l_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['('])
 	}
-	pub fn args(&self) -> AstSeparatedList<Expr> { support::separated_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn args(&self) -> AstSeparatedList<Expr> { support::separated_list(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![')'])
 	}
@@ -938,10 +1127,13 @@ pub struct TsTypeParams {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsTypeParams {
+	#[allow(deprecated)]
 	pub fn l_angle_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [<])
 	}
+	#[allow(deprecated)]
 	pub fn params(&self) -> SyntaxResult<TsTypeParam> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_angle_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [>])
 	}
@@ -951,12 +1143,13 @@ pub struct ParameterList {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ParameterList {
+	#[allow(deprecated)]
 	pub fn l_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['('])
 	}
-	pub fn parameters(&self) -> AstSeparatedList<Pattern> {
-		support::separated_list(&self.syntax, 0usize)
-	}
+	#[allow(deprecated)]
+	pub fn parameters(&self) -> AstSeparatedList<Pattern> { support::separated_list(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![')'])
 	}
@@ -966,7 +1159,9 @@ pub struct TsExprWithTypeArgs {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsExprWithTypeArgs {
+	#[allow(deprecated)]
 	pub fn item(&self) -> SyntaxResult<TsEntityName> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn type_params(&self) -> SyntaxResult<TsTypeArgs> {
 		support::as_mandatory_node(&self.syntax)
 	}
@@ -976,10 +1171,13 @@ pub struct ClassBody {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ClassBody {
+	#[allow(deprecated)]
 	pub fn l_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['{'])
 	}
-	pub fn elements(&self) -> AstNodeList<ClassElement> { support::node_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn elements(&self) -> AstNodeList<ClassElement> { support::node_list(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['}'])
 	}
@@ -989,24 +1187,33 @@ pub struct Method {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Method {
+	#[allow(deprecated)]
 	pub fn static_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![static])
 	}
+	#[allow(deprecated)]
 	pub fn async_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![async])
 	}
+	#[allow(deprecated)]
 	pub fn star_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [*])
 	}
+	#[allow(deprecated)]
 	pub fn name(&self) -> SyntaxResult<PropName> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn type_params(&self) -> Option<TsTypeParams> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn parameters(&self) -> SyntaxResult<ParameterList> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn return_type(&self) -> Option<TsType> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn body(&self) -> SyntaxResult<BlockStmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1014,6 +1221,7 @@ pub struct PrivateProp {
 	pub(crate) syntax: SyntaxNode,
 }
 impl PrivateProp {
+	#[allow(deprecated)]
 	pub fn class_prop(&self) -> SyntaxResult<ClassProp> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1021,33 +1229,45 @@ pub struct ClassProp {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ClassProp {
+	#[allow(deprecated)]
 	pub fn declare_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![declare])
 	}
+	#[allow(deprecated)]
 	pub fn abstract_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![abstract])
 	}
+	#[allow(deprecated)]
 	pub fn static_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![static])
 	}
+	#[allow(deprecated)]
 	pub fn accessibility(&self) -> Option<TsAccessibility> {
 		support::as_optional_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn hash_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [#])
 	}
+	#[allow(deprecated)]
 	pub fn key(&self) -> SyntaxResult<PropName> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn question_mark_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [?])
 	}
+	#[allow(deprecated)]
 	pub fn excl_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![!])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn eq_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [=])
 	}
+	#[allow(deprecated)]
 	pub fn value(&self) -> Option<Expr> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [;])
 	}
@@ -1057,14 +1277,19 @@ pub struct Constructor {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Constructor {
+	#[allow(deprecated)]
 	pub fn accessibility(&self) -> Option<TsAccessibility> {
 		support::as_optional_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn name(&self) -> SyntaxResult<PropName> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn type_params(&self) -> Option<TsTypeParams> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn parameters(&self) -> SyntaxResult<ParameterList> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn body(&self) -> SyntaxResult<BlockStmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1072,17 +1297,23 @@ pub struct TsIndexSignature {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsIndexSignature {
+	#[allow(deprecated)]
 	pub fn readonly_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![readonly])
 	}
+	#[allow(deprecated)]
 	pub fn l_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['['])
 	}
+	#[allow(deprecated)]
 	pub fn pat(&self) -> SyntaxResult<SinglePattern> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![']'])
 	}
@@ -1092,13 +1323,17 @@ pub struct Getter {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Getter {
+	#[allow(deprecated)]
 	pub fn get_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![get])
 	}
+	#[allow(deprecated)]
 	pub fn key(&self) -> SyntaxResult<PropName> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn parameters(&self) -> SyntaxResult<ParameterList> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn body(&self) -> SyntaxResult<BlockStmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1106,13 +1341,17 @@ pub struct Setter {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Setter {
+	#[allow(deprecated)]
 	pub fn set_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![set])
 	}
+	#[allow(deprecated)]
 	pub fn key(&self) -> SyntaxResult<PropName> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn parameters(&self) -> SyntaxResult<ParameterList> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn body(&self) -> SyntaxResult<BlockStmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1120,9 +1359,11 @@ pub struct TsAccessibility {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsAccessibility {
+	#[allow(deprecated)]
 	pub fn private_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![private])
 	}
+	#[allow(deprecated)]
 	pub fn readonly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![readonly])
 	}
@@ -1132,12 +1373,15 @@ pub struct ConstructorParameters {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ConstructorParameters {
+	#[allow(deprecated)]
 	pub fn l_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['('])
 	}
+	#[allow(deprecated)]
 	pub fn parameters(&self) -> AstSeparatedList<ConstructorParamOrPat> {
-		support::separated_list(&self.syntax, 0usize)
+		support::separated_list(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn r_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![')'])
 	}
@@ -1147,9 +1391,11 @@ pub struct TsConstructorParam {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsConstructorParam {
+	#[allow(deprecated)]
 	pub fn readonly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![readonly])
 	}
+	#[allow(deprecated)]
 	pub fn pat(&self) -> SyntaxResult<Pattern> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1157,9 +1403,11 @@ pub struct SpreadElement {
 	pub(crate) syntax: SyntaxNode,
 }
 impl SpreadElement {
+	#[allow(deprecated)]
 	pub fn dotdotdot_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [...])
 	}
+	#[allow(deprecated)]
 	pub fn element(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1167,6 +1415,7 @@ pub struct Null {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Null {
+	#[allow(deprecated)]
 	pub fn null_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![null])
 	}
@@ -1176,6 +1425,7 @@ pub struct Undefined {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Undefined {
+	#[allow(deprecated)]
 	pub fn undefined_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![undefined])
 	}
@@ -1185,16 +1435,21 @@ pub struct SinglePattern {
 	pub(crate) syntax: SyntaxNode,
 }
 impl SinglePattern {
+	#[allow(deprecated)]
 	pub fn name(&self) -> SyntaxResult<Name> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn question_mark_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [?])
 	}
+	#[allow(deprecated)]
 	pub fn excl_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![!])
 	}
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1202,9 +1457,11 @@ pub struct RestPattern {
 	pub(crate) syntax: SyntaxNode,
 }
 impl RestPattern {
+	#[allow(deprecated)]
 	pub fn dotdotdot_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [...])
 	}
+	#[allow(deprecated)]
 	pub fn pat(&self) -> SyntaxResult<Pattern> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1212,14 +1469,19 @@ pub struct AssignPattern {
 	pub(crate) syntax: SyntaxNode,
 }
 impl AssignPattern {
+	#[allow(deprecated)]
 	pub fn key(&self) -> SyntaxResult<Pattern> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn eq_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [=])
 	}
+	#[allow(deprecated)]
 	pub fn value(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1227,12 +1489,15 @@ pub struct ObjectPattern {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ObjectPattern {
+	#[allow(deprecated)]
 	pub fn l_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['{'])
 	}
+	#[allow(deprecated)]
 	pub fn elements(&self) -> AstSeparatedList<ObjectPatternProp> {
-		support::separated_list(&self.syntax, 0usize)
+		support::separated_list(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn r_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['}'])
 	}
@@ -1242,19 +1507,25 @@ pub struct ArrayPattern {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ArrayPattern {
+	#[allow(deprecated)]
 	pub fn l_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['['])
 	}
-	pub fn elements(&self) -> AstNodeList<Pattern> { support::node_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn elements(&self) -> AstNodeList<Pattern> { support::node_list(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![']'])
 	}
+	#[allow(deprecated)]
 	pub fn excl_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![!])
 	}
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1262,6 +1533,7 @@ pub struct ExprPattern {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ExprPattern {
+	#[allow(deprecated)]
 	pub fn expr(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1269,7 +1541,9 @@ pub struct KeyValuePattern {
 	pub(crate) syntax: SyntaxNode,
 }
 impl KeyValuePattern {
+	#[allow(deprecated)]
 	pub fn key(&self) -> SyntaxResult<PropName> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
@@ -1279,6 +1553,7 @@ pub struct LiteralProp {
 	pub(crate) syntax: SyntaxNode,
 }
 impl LiteralProp {
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
@@ -1288,9 +1563,11 @@ pub struct SpreadProp {
 	pub(crate) syntax: SyntaxNode,
 }
 impl SpreadProp {
+	#[allow(deprecated)]
 	pub fn dotdotdot_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [...])
 	}
+	#[allow(deprecated)]
 	pub fn value(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1298,10 +1575,13 @@ pub struct InitializedProp {
 	pub(crate) syntax: SyntaxNode,
 }
 impl InitializedProp {
+	#[allow(deprecated)]
 	pub fn key(&self) -> SyntaxResult<Name> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn eq_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [=])
 	}
+	#[allow(deprecated)]
 	pub fn value(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1309,6 +1589,7 @@ pub struct IdentProp {
 	pub(crate) syntax: SyntaxNode,
 }
 impl IdentProp {
+	#[allow(deprecated)]
 	pub fn name(&self) -> SyntaxResult<Name> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1316,10 +1597,13 @@ pub struct ComputedPropertyName {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ComputedPropertyName {
+	#[allow(deprecated)]
 	pub fn l_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['['])
 	}
+	#[allow(deprecated)]
 	pub fn expr(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![']'])
 	}
@@ -1329,9 +1613,11 @@ pub struct PrivateName {
 	pub(crate) syntax: SyntaxNode,
 }
 impl PrivateName {
+	#[allow(deprecated)]
 	pub fn hash_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [#])
 	}
+	#[allow(deprecated)]
 	pub fn name(&self) -> SyntaxResult<Name> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1339,26 +1625,35 @@ pub struct FnDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl FnDecl {
+	#[allow(deprecated)]
 	pub fn async_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![async])
 	}
+	#[allow(deprecated)]
 	pub fn function_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![function])
 	}
+	#[allow(deprecated)]
 	pub fn star_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [*])
 	}
+	#[allow(deprecated)]
 	pub fn name(&self) -> SyntaxResult<Name> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn type_parameters(&self) -> Option<TsTypeParams> {
 		support::as_optional_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn parameters(&self) -> SyntaxResult<ParameterList> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn return_type(&self) -> Option<TsType> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn body(&self) -> SyntaxResult<BlockStmt> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1366,14 +1661,19 @@ pub struct ClassDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ClassDecl {
+	#[allow(deprecated)]
 	pub fn class_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![class])
 	}
+	#[allow(deprecated)]
 	pub fn name(&self) -> SyntaxResult<Name> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn extends_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![extends])
 	}
+	#[allow(deprecated)]
 	pub fn parent(&self) -> SyntaxResult<NameRef> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn body(&self) -> SyntaxResult<ClassBody> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1381,17 +1681,23 @@ pub struct TsEnum {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsEnum {
+	#[allow(deprecated)]
 	pub fn const_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![const])
 	}
+	#[allow(deprecated)]
 	pub fn enum_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![enum])
 	}
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn l_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['{'])
 	}
-	pub fn members(&self) -> AstNodeList<TsEnumMember> { support::node_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn members(&self) -> AstNodeList<TsEnumMember> { support::node_list(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['}'])
 	}
@@ -1401,15 +1707,19 @@ pub struct TsTypeAliasDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsTypeAliasDecl {
+	#[allow(deprecated)]
 	pub fn type_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![type])
 	}
+	#[allow(deprecated)]
 	pub fn type_params(&self) -> SyntaxResult<TsTypeParams> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn eq_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [=])
 	}
+	#[allow(deprecated)]
 	pub fn ts_type(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1417,13 +1727,17 @@ pub struct TsNamespaceDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsNamespaceDecl {
+	#[allow(deprecated)]
 	pub fn declare_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![declare])
 	}
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn dot_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [.])
 	}
+	#[allow(deprecated)]
 	pub fn ts_namespace_body(&self) -> SyntaxResult<TsNamespaceBody> {
 		support::as_mandatory_node(&self.syntax)
 	}
@@ -1433,19 +1747,25 @@ pub struct TsModuleDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsModuleDecl {
+	#[allow(deprecated)]
 	pub fn declare_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![declare])
 	}
+	#[allow(deprecated)]
 	pub fn global_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![global])
 	}
+	#[allow(deprecated)]
 	pub fn module_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![module])
 	}
+	#[allow(deprecated)]
 	pub fn dot_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [.])
 	}
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn body(&self) -> SyntaxResult<TsNamespaceBody> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1453,25 +1773,33 @@ pub struct TsInterfaceDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsInterfaceDecl {
+	#[allow(deprecated)]
 	pub fn declare_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![declare])
 	}
+	#[allow(deprecated)]
 	pub fn interface_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![interface])
 	}
+	#[allow(deprecated)]
 	pub fn type_params(&self) -> SyntaxResult<TsTypeParams> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn extends_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![extends])
 	}
+	#[allow(deprecated)]
 	pub fn extends(&self) -> Option<TsExprWithTypeArgs> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn l_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['{'])
 	}
+	#[allow(deprecated)]
 	pub fn members(&self) -> SyntaxResult<TsTypeElement> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn r_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['}'])
 	}
@@ -1481,13 +1809,17 @@ pub struct Declarator {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Declarator {
+	#[allow(deprecated)]
 	pub fn pattern(&self) -> SyntaxResult<Pattern> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn excl_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![!])
 	}
+	#[allow(deprecated)]
 	pub fn eq_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [=])
 	}
+	#[allow(deprecated)]
 	pub fn value(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1495,22 +1827,29 @@ pub struct ImportDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ImportDecl {
+	#[allow(deprecated)]
 	pub fn import_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![import])
 	}
-	pub fn imports(&self) -> AstNodeList<ImportClause> { support::node_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn imports(&self) -> AstNodeList<ImportClause> { support::node_list(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn type_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![type])
 	}
+	#[allow(deprecated)]
 	pub fn from_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![from])
 	}
+	#[allow(deprecated)]
 	pub fn asserted_object(&self) -> SyntaxResult<ObjectExpr> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn assert_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![assert])
 	}
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [;])
 	}
@@ -1520,21 +1859,27 @@ pub struct ExportNamed {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ExportNamed {
+	#[allow(deprecated)]
 	pub fn export_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![export])
 	}
+	#[allow(deprecated)]
 	pub fn type_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![type])
 	}
+	#[allow(deprecated)]
 	pub fn from_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![from])
 	}
+	#[allow(deprecated)]
 	pub fn l_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['{'])
 	}
+	#[allow(deprecated)]
 	pub fn specifiers(&self) -> AstSeparatedList<Specifier> {
-		support::separated_list(&self.syntax, 0usize)
+		support::separated_list(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn r_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['}'])
 	}
@@ -1544,15 +1889,19 @@ pub struct ExportDefaultDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ExportDefaultDecl {
+	#[allow(deprecated)]
 	pub fn export_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![export])
 	}
+	#[allow(deprecated)]
 	pub fn default_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![default])
 	}
+	#[allow(deprecated)]
 	pub fn type_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![type])
 	}
+	#[allow(deprecated)]
 	pub fn decl(&self) -> SyntaxResult<DefaultDecl> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1560,15 +1909,19 @@ pub struct ExportDefaultExpr {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ExportDefaultExpr {
+	#[allow(deprecated)]
 	pub fn export_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![export])
 	}
+	#[allow(deprecated)]
 	pub fn type_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![type])
 	}
+	#[allow(deprecated)]
 	pub fn default_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![default])
 	}
+	#[allow(deprecated)]
 	pub fn expr(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1576,19 +1929,25 @@ pub struct ExportWildcard {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ExportWildcard {
+	#[allow(deprecated)]
 	pub fn export_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![export])
 	}
+	#[allow(deprecated)]
 	pub fn type_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![type])
 	}
+	#[allow(deprecated)]
 	pub fn star_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [*])
 	}
+	#[allow(deprecated)]
 	pub fn as_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![as])
 	}
+	#[allow(deprecated)]
 	pub fn ident(&self) -> Option<Ident> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn from_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![from])
 	}
@@ -1598,12 +1957,15 @@ pub struct ExportDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl ExportDecl {
+	#[allow(deprecated)]
 	pub fn export_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![export])
 	}
+	#[allow(deprecated)]
 	pub fn type_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![type])
 	}
+	#[allow(deprecated)]
 	pub fn decl(&self) -> SyntaxResult<Decl> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1611,17 +1973,23 @@ pub struct TsImportEqualsDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsImportEqualsDecl {
+	#[allow(deprecated)]
 	pub fn import_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![import])
 	}
+	#[allow(deprecated)]
 	pub fn export_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![export])
 	}
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn eq_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [=])
 	}
+	#[allow(deprecated)]
 	pub fn module(&self) -> SyntaxResult<TsModuleRef> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [;])
 	}
@@ -1631,13 +1999,17 @@ pub struct TsExportAssignment {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsExportAssignment {
+	#[allow(deprecated)]
 	pub fn export_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![export])
 	}
+	#[allow(deprecated)]
 	pub fn eq_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [=])
 	}
+	#[allow(deprecated)]
 	pub fn expr(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [;])
 	}
@@ -1647,16 +2019,21 @@ pub struct TsNamespaceExportDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsNamespaceExportDecl {
+	#[allow(deprecated)]
 	pub fn export_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![export])
 	}
+	#[allow(deprecated)]
 	pub fn as_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![as])
 	}
+	#[allow(deprecated)]
 	pub fn namespace_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![namespace])
 	}
+	#[allow(deprecated)]
 	pub fn ident(&self) -> Option<Ident> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [;])
 	}
@@ -1666,12 +2043,15 @@ pub struct WildcardImport {
 	pub(crate) syntax: SyntaxNode,
 }
 impl WildcardImport {
+	#[allow(deprecated)]
 	pub fn star_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [*])
 	}
+	#[allow(deprecated)]
 	pub fn as_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![as])
 	}
+	#[allow(deprecated)]
 	pub fn ident(&self) -> Option<Ident> { support::as_optional_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1679,12 +2059,15 @@ pub struct NamedImports {
 	pub(crate) syntax: SyntaxNode,
 }
 impl NamedImports {
+	#[allow(deprecated)]
 	pub fn l_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['{'])
 	}
+	#[allow(deprecated)]
 	pub fn specifiers(&self) -> AstSeparatedList<Specifier> {
-		support::separated_list(&self.syntax, 0usize)
+		support::separated_list(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn r_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['}'])
 	}
@@ -1699,6 +2082,7 @@ pub struct Specifier {
 	pub(crate) syntax: SyntaxNode,
 }
 impl Specifier {
+	#[allow(deprecated)]
 	pub fn name(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1706,12 +2090,15 @@ pub struct TsExternalModuleRef {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsExternalModuleRef {
+	#[allow(deprecated)]
 	pub fn require_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![require])
 	}
+	#[allow(deprecated)]
 	pub fn l_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['('])
 	}
+	#[allow(deprecated)]
 	pub fn r_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![')'])
 	}
@@ -1721,6 +2108,7 @@ pub struct TsAny {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsAny {
+	#[allow(deprecated)]
 	pub fn any_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![any])
 	}
@@ -1730,6 +2118,7 @@ pub struct TsUnknown {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsUnknown {
+	#[allow(deprecated)]
 	pub fn unknown_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![unknown])
 	}
@@ -1739,6 +2128,7 @@ pub struct TsNumber {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsNumber {
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1746,6 +2136,7 @@ pub struct TsObject {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsObject {
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1753,6 +2144,7 @@ pub struct TsBoolean {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsBoolean {
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1760,6 +2152,7 @@ pub struct TsBigint {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsBigint {
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1767,6 +2160,7 @@ pub struct TsString {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsString {
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1774,6 +2168,7 @@ pub struct TsSymbol {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsSymbol {
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1781,6 +2176,7 @@ pub struct TsVoid {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsVoid {
+	#[allow(deprecated)]
 	pub fn void_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![void])
 	}
@@ -1790,6 +2186,7 @@ pub struct TsUndefined {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsUndefined {
+	#[allow(deprecated)]
 	pub fn undefined_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![undefined])
 	}
@@ -1799,6 +2196,7 @@ pub struct TsNull {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsNull {
+	#[allow(deprecated)]
 	pub fn null_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![null])
 	}
@@ -1808,6 +2206,7 @@ pub struct TsNever {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsNever {
+	#[allow(deprecated)]
 	pub fn never_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![never])
 	}
@@ -1817,6 +2216,7 @@ pub struct TsThis {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsThis {
+	#[allow(deprecated)]
 	pub fn this_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![this])
 	}
@@ -1826,6 +2226,7 @@ pub struct TsLiteral {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsLiteral {
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1833,7 +2234,9 @@ pub struct TsPredicate {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsPredicate {
+	#[allow(deprecated)]
 	pub fn lhs(&self) -> SyntaxResult<TsThisOrMore> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn rhs(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1841,12 +2244,15 @@ pub struct TsTuple {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsTuple {
+	#[allow(deprecated)]
 	pub fn l_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['['])
 	}
+	#[allow(deprecated)]
 	pub fn elements(&self) -> SyntaxResult<TsTupleElement> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn r_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![']'])
 	}
@@ -1856,10 +2262,13 @@ pub struct TsParen {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsParen {
+	#[allow(deprecated)]
 	pub fn l_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['('])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![')'])
 	}
@@ -1869,7 +2278,9 @@ pub struct TsTypeRef {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsTypeRef {
+	#[allow(deprecated)]
 	pub fn name(&self) -> SyntaxResult<TsEntityName> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn type_args(&self) -> SyntaxResult<TsTypeArgs> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1877,6 +2288,7 @@ pub struct TsTemplate {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsTemplate {
+	#[allow(deprecated)]
 	pub fn elements(&self) -> SyntaxResult<TsTemplateElement> {
 		support::as_mandatory_node(&self.syntax)
 	}
@@ -1886,31 +2298,41 @@ pub struct TsMappedType {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsMappedType {
+	#[allow(deprecated)]
 	pub fn l_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['{'])
 	}
+	#[allow(deprecated)]
 	pub fn readonly_modifier(&self) -> Option<TsMappedTypeReadonly> {
 		support::as_optional_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn minus_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [-])
 	}
+	#[allow(deprecated)]
 	pub fn plus_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [+])
 	}
+	#[allow(deprecated)]
 	pub fn question_mark_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [?])
 	}
+	#[allow(deprecated)]
 	pub fn param(&self) -> SyntaxResult<TsMappedTypeParam> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['}'])
 	}
+	#[allow(deprecated)]
 	pub fn semicolon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [;])
 	}
@@ -1920,19 +2342,25 @@ pub struct TsImport {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsImport {
+	#[allow(deprecated)]
 	pub fn import_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![import])
 	}
+	#[allow(deprecated)]
 	pub fn type_args(&self) -> SyntaxResult<TsTypeArgs> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn dot_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [.])
 	}
+	#[allow(deprecated)]
 	pub fn l_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['('])
 	}
+	#[allow(deprecated)]
 	pub fn qualifier(&self) -> SyntaxResult<TsEntityName> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn r_paren_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![')'])
 	}
@@ -1942,10 +2370,13 @@ pub struct TsArray {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsArray {
+	#[allow(deprecated)]
 	pub fn l_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['['])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![']'])
 	}
@@ -1955,10 +2386,13 @@ pub struct TsIndexedArray {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsIndexedArray {
+	#[allow(deprecated)]
 	pub fn l_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['['])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_brack_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![']'])
 	}
@@ -1968,6 +2402,7 @@ pub struct TsTypeOperator {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsTypeOperator {
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -1975,24 +2410,29 @@ pub struct TsIntersection {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsIntersection {
-	pub fn types(&self) -> AstNodeList<TsType> { support::node_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn types(&self) -> AstNodeList<TsType> { support::node_list(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct TsUnion {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsUnion {
-	pub fn types(&self) -> AstNodeList<TsType> { support::node_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn types(&self) -> AstNodeList<TsType> { support::node_list(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct TsFnType {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsFnType {
+	#[allow(deprecated)]
 	pub fn params(&self) -> SyntaxResult<ParameterList> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn fat_arrow_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [=>])
 	}
+	#[allow(deprecated)]
 	pub fn return_type(&self) -> Option<TsType> { support::as_optional_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2000,13 +2440,17 @@ pub struct TsConstructorType {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsConstructorType {
+	#[allow(deprecated)]
 	pub fn new_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![new])
 	}
+	#[allow(deprecated)]
 	pub fn params(&self) -> SyntaxResult<ParameterList> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn return_type(&self) -> Option<TsType> { support::as_optional_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2014,13 +2458,17 @@ pub struct TsConditionalType {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsConditionalType {
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn question_mark_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [?])
 	}
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn extends(&self) -> SyntaxResult<TsExtends> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2028,10 +2476,13 @@ pub struct TsObjectType {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsObjectType {
+	#[allow(deprecated)]
 	pub fn l_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['{'])
 	}
-	pub fn members(&self) -> AstNodeList<TsTypeElement> { support::node_list(&self.syntax, 0usize) }
+	#[allow(deprecated)]
+	pub fn members(&self) -> AstNodeList<TsTypeElement> { support::node_list(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['}'])
 	}
@@ -2041,9 +2492,11 @@ pub struct TsInfer {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsInfer {
+	#[allow(deprecated)]
 	pub fn infer_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![infer])
 	}
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2051,16 +2504,21 @@ pub struct TsTupleElement {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsTupleElement {
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn question_mark_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [?])
 	}
+	#[allow(deprecated)]
 	pub fn dotdotdot_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [...])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2068,10 +2526,13 @@ pub struct TsEnumMember {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsEnumMember {
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn eq_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [=])
 	}
+	#[allow(deprecated)]
 	pub fn value(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2079,7 +2540,9 @@ pub struct TsTemplateElement {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsTemplateElement {
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['}'])
 	}
@@ -2089,12 +2552,15 @@ pub struct TsMappedTypeReadonly {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsMappedTypeReadonly {
+	#[allow(deprecated)]
 	pub fn minus_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [-])
 	}
+	#[allow(deprecated)]
 	pub fn plus_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [+])
 	}
+	#[allow(deprecated)]
 	pub fn readonly_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![readonly])
 	}
@@ -2104,14 +2570,19 @@ pub struct TsMappedTypeParam {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsMappedTypeParam {
+	#[allow(deprecated)]
 	pub fn l_brack_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T!['['])
 	}
+	#[allow(deprecated)]
 	pub fn name(&self) -> Option<TsTypeName> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_brack_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![']'])
 	}
+	#[allow(deprecated)]
 	pub fn ident(&self) -> Option<Ident> { support::as_optional_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2119,6 +2590,7 @@ pub struct TsTypeName {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsTypeName {
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2126,9 +2598,11 @@ pub struct TsExtends {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsExtends {
+	#[allow(deprecated)]
 	pub fn extends_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![extends])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2136,10 +2610,13 @@ pub struct TsModuleBlock {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsModuleBlock {
+	#[allow(deprecated)]
 	pub fn l_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['{'])
 	}
+	#[allow(deprecated)]
 	pub fn items(&self) -> SyntaxResult<ModuleItem> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn r_curly_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T!['}'])
 	}
@@ -2149,10 +2626,13 @@ pub struct TsTypeParam {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsTypeParam {
+	#[allow(deprecated)]
 	pub fn ident(&self) -> SyntaxResult<Ident> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn constraint(&self) -> SyntaxResult<TsConstraint> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn default(&self) -> SyntaxResult<TsDefault> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2160,9 +2640,11 @@ pub struct TsConstraint {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsConstraint {
+	#[allow(deprecated)]
 	pub fn extends_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![extends])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2170,9 +2652,11 @@ pub struct TsDefault {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsDefault {
+	#[allow(deprecated)]
 	pub fn eq_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [=])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2180,15 +2664,19 @@ pub struct TsCallSignatureDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsCallSignatureDecl {
+	#[allow(deprecated)]
 	pub fn type_params(&self) -> SyntaxResult<TsTypeParams> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn parameters(&self) -> SyntaxResult<ParameterList> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn return_type(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2196,18 +2684,23 @@ pub struct TsConstructSignatureDecl {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsConstructSignatureDecl {
+	#[allow(deprecated)]
 	pub fn new_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T![new])
 	}
+	#[allow(deprecated)]
 	pub fn type_params(&self) -> SyntaxResult<TsTypeParams> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn parameters(&self) -> SyntaxResult<ParameterList> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn return_type(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2215,16 +2708,21 @@ pub struct TsPropertySignature {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsPropertySignature {
+	#[allow(deprecated)]
 	pub fn readonly_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![readonly])
 	}
+	#[allow(deprecated)]
 	pub fn prop(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn question_mark_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [?])
 	}
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn ty(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2232,22 +2730,29 @@ pub struct TsMethodSignature {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsMethodSignature {
+	#[allow(deprecated)]
 	pub fn readonly_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T![readonly])
 	}
+	#[allow(deprecated)]
 	pub fn key(&self) -> SyntaxResult<Expr> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn type_params(&self) -> SyntaxResult<TsTypeParams> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn parameters(&self) -> SyntaxResult<ParameterList> {
 		support::as_mandatory_node(&self.syntax)
 	}
+	#[allow(deprecated)]
 	pub fn question_mark_token(&self) -> Option<SyntaxToken> {
 		support::as_optional_token(&self.syntax, T ! [?])
 	}
+	#[allow(deprecated)]
 	pub fn colon_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [:])
 	}
+	#[allow(deprecated)]
 	pub fn return_type(&self) -> SyntaxResult<TsType> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -2255,10 +2760,13 @@ pub struct TsQualifiedPath {
 	pub(crate) syntax: SyntaxNode,
 }
 impl TsQualifiedPath {
+	#[allow(deprecated)]
 	pub fn lhs(&self) -> SyntaxResult<TsEntityName> { support::as_mandatory_node(&self.syntax) }
+	#[allow(deprecated)]
 	pub fn dot_token(&self) -> SyntaxResult<SyntaxToken> {
 		support::as_mandatory_token(&self.syntax, T ! [.])
 	}
+	#[allow(deprecated)]
 	pub fn rhs(&self) -> SyntaxResult<TsTypeName> { support::as_mandatory_node(&self.syntax) }
 }
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]

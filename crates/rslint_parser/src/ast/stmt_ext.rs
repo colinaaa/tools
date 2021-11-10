@@ -155,6 +155,7 @@ mod tests {
 }
 
 impl TsEnumMember {
+	#[allow(deprecated)]
 	pub fn string_token(&self) -> Option<SyntaxToken> {
 		support::token(&self.syntax, STRING)
 	}
